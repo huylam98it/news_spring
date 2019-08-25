@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-11/css/all.min.css">
+    <title>Dashboard</title>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand text-white">Admin Page</a>
+    </div>
+</nav>
+
+<section class="container mt-3">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-9 text-center">
+            <h1>Quan ly danh muc</h1>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <form th:action="@{/admin/addcategory}" class="form-inline text-center" method="post">
+                        <label>Category name:</label>
+                        <input class="form-control" type="text" name="name" required/>
+                        <input type="submit" class="btn btn-primary" value="Add"/>
+                    </form>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Ten danh muc</th>
+                            <th>Ngay tao</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="cat,i:${categories}">
+                            <td th:text="${i.index+1}"></td>
+                            <td th:text="${cat.getName()}"></td>
+                            <td th:text="${#dates.format(cat.getCreated(),'dd/MM/yyyy hh:mm:ss')}"></td>
+                            <td><a class="btn btn-danger">Xoa</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>
