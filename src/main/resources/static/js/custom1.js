@@ -10,13 +10,18 @@ app.controller('ctrl',function($scope,$http){
         if(id){
             $http.get('/admin/api/listpost/'+id).then(function (value) {
                 $scope.loaded=true;
-                console.log('data : '+value.data);
                 $scope.listPost=value.data;
             });
         }
     }
 
-    $scope.changeStatus=function(){
-
+    $scope.removePost=function(id){
+        var isAction=confirm("Xac nhan xoa bai viet ?");
+        if(isAction){
+            $http.post('/admin/removepost',{id:id},{}).then(function (value) {
+                alert(value.data.message);
+                $scope.capnhat();
+            });
+        }
     }
 })

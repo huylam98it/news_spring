@@ -4,12 +4,16 @@ import com.foss.news.dao.AccountDao;
 import com.foss.news.dao.CategoryDao;
 import com.foss.news.dao.PostDao;
 import com.foss.news.dto.PostDTO;
+import com.foss.news.dto.PostModel;
+import com.foss.news.dto.ResponseModel;
 import com.foss.news.entity.Account;
 import com.foss.news.entity.Category;
 import com.foss.news.entity.Post;
 import com.foss.news.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -139,5 +143,18 @@ public class AdminController {
             re.addAttribute("message","xoa danh muc that bai: "+ex.getMessage());
         }
         return "redirect:/admin/qlcategory";
+    }
+
+    @PostMapping(value = "/removepost")
+    public ResponseEntity<Object> removePost(@RequestBody PostModel postModel){
+        String message="xoa bai viet thanh cong";
+        System.out.println("removing post: "+postModel.getId());
+        try{
+            postDao.deleteById(postModel.getId());
+        }catch (Exception ex){
+            message="xoa bai viet that bai: ";
+        }
+
+        return new ResponseEntity<>(new ResponseModel(message),HttpStatus.OK);
     }
 }
