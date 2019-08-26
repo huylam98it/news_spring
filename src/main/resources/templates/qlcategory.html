@@ -23,6 +23,7 @@
         <div class="col-md-1"></div>
         <div class="col-md-9 text-center">
             <h1>Quan ly danh muc</h1>
+            <p style="color: red" th:text="${message_status}"></p>
             <div class="row">
                 <div class="col-md-12 text-center">
                     <form th:action="@{/admin/addcategory}" class="form-inline text-center" method="post">
@@ -48,7 +49,11 @@
                             <td th:text="${i.index+1}"></td>
                             <td th:text="${cat.getName()}"></td>
                             <td th:text="${#dates.format(cat.getCreated(),'dd/MM/yyyy hh:mm:ss')}"></td>
-                            <td><a class="btn btn-danger">Xoa</a></td>
+                            <td>
+                                <a class="btn btn-danger" th:href="@{/admin/removecategory/{id}(id=${cat.getId()})}" onclick="return confirm('xac nhan xoa danh muc ?')" >
+                                Xoa
+                                </a>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

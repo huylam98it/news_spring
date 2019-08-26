@@ -4,6 +4,7 @@ import com.foss.news.dao.AccountDao;
 import com.foss.news.dao.CategoryDao;
 import com.foss.news.dao.PostDao;
 import com.foss.news.dto.PostDTO;
+import com.foss.news.entity.Account;
 import com.foss.news.entity.Category;
 import com.foss.news.entity.Post;
 import com.foss.news.service.UploadService;
@@ -13,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
 
@@ -44,7 +47,10 @@ public class AdminController {
     }
 
     @GetMapping(value = "/qlcategory")
-    public String qlCategoryPage(Model model){
+    public String qlCategoryPage(Model model,@RequestParam(required = false)String message){
+        if(message!=null){
+            model.addAttribute("message_status",message);
+        }
         model.addAttribute("categories",categoryDao.findAll());
         return "qlcategory";
     }
@@ -105,5 +111,33 @@ public class AdminController {
     @GetMapping(value = "/api/listpost/{id}")
     public ResponseEntity<Object> postApi(@PathVariable("id") long id){
         return new ResponseEntity<>(postDao.getPostByCatId(id), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/removeuser/{id}")
+    public String removeUser(@PathVariable("id")long id,Model model){
+        String message_status="Tai khoan admin khong the xoa";
+        Account acc=accountDao.findById(id).orElse(null);
+        if(acc.getIsadmin()==false){
+            try{
+                accountDao.delete(acc);
+                message_status="Xoa tai khoan thanh cong";
+            }catch (Exception ex){
+                message_status="Xoa tai khoan that bai: "+ex.getMessage();
+            }
+        }
+        model.addAttribute("message_status",message_status);
+        model.addAttribute("accounts",accountDao.findAll());
+        return "qlaccount";
+    }
+
+    @GetMapping(value = "/removecategory/{id}")
+    public String removeCategory(@PathVariable("id")long id, RedirectAttributes re){
+        try{
+            re.addAttribute("message","xoa danh muc thanh cong");
+            categoryDao.deleteById(id);
+        }catch (Exception ex){
+            re.addAttribute("message","xoa danh muc that bai: "+ex.getMessage());
+        }
+        return "redirect:/admin/qlcategory";
     }
 }
