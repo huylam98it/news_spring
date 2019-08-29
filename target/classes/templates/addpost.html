@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-11/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/froala-editor@3.0.0-beta.1/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+    <title>them bai viet</title>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a th:href="@{/admin}" class="navbar-brand text-white">Admin Page</a>
+    </div>
+</nav>
+
+<section class="container mt-3">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1>Them bai viet</h1>
+            <p style="color: red" th:text="${message_status}"></p>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <form th:action="@{/admin/addpost}" enctype="multipart/form-data" method="post">
+                        <div class="form-group col-md-3">
+                            <label>Danh muc</label>
+                            <select class="form-control" name="category">
+                                <option th:each="cat:${categories}" th:text="${cat.getName()}" th:value="${cat.getId()}">
+                                    category name
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tieu de bai viet</label>
+                            <input class="form-control" type="text" required name="title">
+                        </div>
+                        <div class="form-group">
+                            <label>Hinh anh</label>
+                            <input type="file" class="form-control" required name="image"/>
+                        </div>
+                        <div>
+                            <textarea id="editor" name="content"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary" value="Add post"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@3.0.0-beta.1//js/froala_editor.pkgd.min.js"></script>
+<script>
+    new FroalaEditor('#editor',{
+        imageUploadURL:'/upload',
+        imageUploadParam:'file',
+        heightMin:500
+    });
+</script>
+</body>
+
+</html>
