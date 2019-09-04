@@ -10,7 +10,7 @@
     <title>Quan ly tai khoan</title>
 </head>
 
-<body>
+<body ng-app="qluser" ng-controller="control">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
@@ -34,13 +34,13 @@
                             <th></th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr th:each="acc:${accounts}">
-                            <td th:text="${acc.getUsername()}"></td>
-                            <td th:text="${acc.getPassword()}"></td>
-                            <td th:text="${acc.getIsadmin()?'Admin':'User'}"></td>
+                        <tbody ng-init="load()">
+                        <tr ng-repeat="u in users">
+                            <td>{{u.username}}</td>
+                            <td>{{u.password}}</td>
+                            <td>{{u.isadmin?'Admin':'User'}}</td>
                             <td>
-                                <a th:href="@{/admin/removeuser/{id}(id=${acc.getId()})}" class="btn btn-danger" onclick="return xacnhan()">
+                                <a class="btn btn-danger" ng-click="xoa(u.id)">
                                     Xoa
                                 </a>
                             </td>
@@ -56,10 +56,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+<script th:src="@{/js/custom_user.js}"></script>
 <script>
-    function xacnhan(){
-        return confirm("xac nhan xoa tai khoan ?");
-    }
+    
 </script>
 </body>
 

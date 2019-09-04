@@ -15,7 +15,7 @@ public class Account implements Serializable {
     private String password;
     private Boolean isadmin;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account",fetch = FetchType.LAZY)
     private List<Comment> comments;
 
     public long getId() {
