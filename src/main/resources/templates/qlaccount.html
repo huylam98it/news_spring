@@ -25,7 +25,8 @@
             <p style="color: red" th:text="${message_status}"></p>
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table table-bordered table-hover">
+                <div ng-hide="loaded" ng-show="!loaded" class="spinner-border text-success"></div>
+                    <table ng-hide="!loaded" class="table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th>Username</th>

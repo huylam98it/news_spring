@@ -5,7 +5,11 @@ import java.util.Date;
 
 public class CategoryDTO implements Serializable {
 
-    private long id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private long id;
     private String name;
     private Date created;
     private long count;
